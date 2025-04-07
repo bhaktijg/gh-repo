@@ -5,6 +5,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Welcome Note
-        run: echo "Welcome Bhakti to Github action world!!!"
-      - name: Second Step
-        run: echo "In Second Step"
+        run: |
+            echo "Welcome Bhakti to Github action world!!!"
+            echo "In Second Step"
+
