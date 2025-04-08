@@ -1,7 +1,7 @@
 name: Build and Deploy React application
 on: push
 jobs:
-    test-job:
+    test-job: # test react application
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository code
@@ -19,7 +19,8 @@ jobs:
                 npm install
                 npm test
 
-    deploy-job:
+    deploy-job: #Build and deploy application
+        needs: [test-job] # deploy-job will run after successfully completion of test-job. 
         runs-on: ubuntu-latest
         steps:
             - name: Checkout repository code
