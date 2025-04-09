@@ -16,13 +16,14 @@ jobs:
                 npm run build
                 pwd
                 ls -la
-                ls ${GITHUB_WORKSPACE}
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
               with:
                 name: react-app-artifacts
-                path: ${GITHUB_WORKSPACE}/dist
+                path: |
+                    ls -la
+                    ~/dist
                  
     deploy-job:
         needs: artifact-job
