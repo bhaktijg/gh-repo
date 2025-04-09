@@ -1,7 +1,7 @@
 name: Build and Deploy React application
-on: 
-  push: #multiple triggers - Workflow can be invoke manually as well as on push event of code.
-    branches: [main]   
+on: workflow_dispatch
+  #push: #multiple triggers - Workflow can be invoke manually as well as on push event of code.
+    #branches: [main]   
 jobs:
     test-job: # test react application
         runs-on: ubuntu-latest

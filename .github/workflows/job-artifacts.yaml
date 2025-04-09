@@ -1,0 +1,17 @@
+name: Job Artifacts Workflow
+on: workflow_dispatch
+jobs:
+    artifact-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install dependencies and Build application
+              run:  |
+                cd second-action-react-app
+                ls -la
+                npm install
+                npm test
+                npm run build
+          
