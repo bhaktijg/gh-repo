@@ -14,8 +14,6 @@ jobs:
                 npm install
                 npm test
                 npm run build
-                pwd
-                ls -la
                 cd ${{github.workspace}}
                 ls -la
 
@@ -23,8 +21,7 @@ jobs:
               uses: actions/upload-artifact@v4
               with:
                 name: react-app-artifacts
-                path: |
-                  dist
+                path: ${{github.workspace}}/second-action-react-app/dist/*
                  
     deploy-job:
         needs: artifact-job
