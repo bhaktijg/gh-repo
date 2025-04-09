@@ -16,14 +16,15 @@ jobs:
                 npm run build
                 pwd
                 ls -la
+                cd ${{github.workspace}}
+                ls -la
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
               with:
                 name: react-app-artifacts
                 path: |
-                    ls -la
-                    ~/dist
+                  dist
                  
     deploy-job:
         needs: artifact-job
