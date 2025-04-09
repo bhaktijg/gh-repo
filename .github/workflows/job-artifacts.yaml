@@ -3,6 +3,9 @@ on: workflow_dispatch
 jobs:
     artifact-job:
         runs-on: ubuntu-latest
+        #expose job outputs - These outputs you can use into another jobs.
+        outputs:
+          output-name: ${{steps.outputname.outputs.name}}
         steps:
             - name: Checkout code
               uses: actions/checkout@v4
@@ -14,6 +17,10 @@ jobs:
                 npm install
                 npm test
                 npm run build
+
+            - name: Publish output  #Job output example
+              id: outputname
+              run: echo "name=bhakti" >> "$GITHUB_OUTPUT"
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
@@ -30,6 +37,8 @@ jobs:
               with: 
                 name: react-app-artifacts
             - name: Output artifacts contents
-              run: ls -la 
+              run: ls -la
+            - name: Output name
+              run: echo "Welcome - ${{needs.artifact-job.outputs.output-name}}" # access outputs of another job
             - name: Deploy application
               run: echo "Deploy application..."      
