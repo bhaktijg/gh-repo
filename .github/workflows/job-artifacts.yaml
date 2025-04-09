@@ -14,18 +14,22 @@ jobs:
                 npm install
                 npm test
                 npm run build
-                cd ${{github.workspace}}
-                ls -la
 
             - name: Upload artifacts
               uses: actions/upload-artifact@v4
               with:
                 name: react-app-artifacts
-                path: ${{github.workspace}}/second-action-react-app/dist/*
+                path: ${{github.workspace}}/second-action-react-app/dist
                  
     deploy-job:
         needs: artifact-job
         runs-on: ubuntu-latest
         steps:
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
+              with: 
+                name: react-app-artifacts
+            - name: Output artifacts contents
+              run: ls -la 
             - name: Deploy application
               run: echo "Deploy application..."      
