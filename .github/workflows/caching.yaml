@@ -1,0 +1,58 @@
+name: Cache dependencies workflow
+on: workflow_dispatch
+jobs:
+    test-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name : Download code
+              uses: actions/checkout@v4
+
+            - name: Cache dependencies # This action stores application dependencies into central location and cached it. 
+              uses: actions/cache@v4
+              with:
+                path: ~/.npm
+                key: node-modules-deps-${{ hashFiles('**/package-lock.json')}}
+
+            - name: Install dependencies and Build application
+              run: |
+                cd second-action-react-app
+                npm install
+                npm test
+    build-job:
+        needs: test-job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Cache dependencies
+              uses: actions/cache@v4
+              with:
+                path: ~/.npm
+                key: node-modules-deps-${{ hashFiles('**/package-lock.json')}}
+
+            - name: Install dependencies # This action fetches the dependencies from cache location and installed it. 
+              run: |
+                cd second-action-react-app
+                npm install
+
+            - name: build application
+              run: |
+                cd second-action-react-app
+                npm run build
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: react-app-artifacts
+                path: ${{github.workspace}}/second-action-react-app/dist
+
+    deploy-job:
+        needs: build-job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
+              with: 
+                name: react-app-artifacts
+
+            - name: Deploy application
+              run: echo "Deploying application....."
+
