@@ -1,0 +1,35 @@
+name: Use Reusable Workflow
+on: workflow_dispatch
+jobs:
+    artifact-job:
+        runs-on: ubuntu-latest
+        #expose job outputs - These outputs you can use into another jobs.
+        outputs:
+          output-note: ${{steps.outputnote.outputs.note}}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install dependencies and Build application
+              run:  |
+                cd second-action-react-app
+                ls -la
+                npm install
+                npm test
+                npm run build
+
+            - name: Publish output  #Job output example
+              id: outputnote
+              run: echo "note=Welcome bhakti!!" >> "$GITHUB_OUTPUT"
+
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: react-app-artifacts
+                path: ${{github.workspace}}/second-action-react-app/dist
+
+    deploy-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Deploy step
+              uses: ./github/workflows/reusable-workflow.yaml #call reusable workflow here. 
