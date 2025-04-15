@@ -7,6 +7,8 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
+    container: #run this job inside container. 
+      image: node:18
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb+srv
       MONGODB_CLUSTER_ADDRESS: ${{ secrets.MONGODB_CLUSTER_ADDRESS}}
