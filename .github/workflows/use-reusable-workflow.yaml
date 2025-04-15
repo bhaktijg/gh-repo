@@ -34,6 +34,6 @@ jobs:
         steps:
             - name: Checkout repository code
               uses: actions/checkout@v4
-              
+
             - name: Deploy step
-              uses: ./github/workflows/reusable-workflow.yaml #call reusable workflow here. 
+              uses: ./.github/workflows/reusable-deploy.yaml #call reusable workflow here. 
