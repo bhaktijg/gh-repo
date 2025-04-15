@@ -7,11 +7,12 @@ jobs:
   test:
     environment: testing
     runs-on: ubuntu-latest
-    container: #run this job inside container. 
-      image: node:18
+    # container: #run this job inside container. 
+    #   image: node:18
     env:
       MONGODB_CONNECTION_PROTOCOL: mongodb
-      MONGODB_CLUSTER_ADDRESS: mongodb # this value should be same as mongodb service name.
+      #MONGODB_CLUSTER_ADDRESS: mongodb # this value should be same as mongodb service name if you are running your job in container. 
+      MONGODB_CLUSTER_ADDRESS: 127.0.0.1:27017 # use github runner local port
       MONGODB_USERNAME: ${{ secrets.MONGODB_USERNAME }}
       MONGODB_PASSWORD: ${{ secrets.MONGODB_PASSWORD }}
       PORT: 8080
@@ -19,6 +20,8 @@ jobs:
     services:
       mongodb:
         image: mongo
+        ports: # use when you are not running your job into container. 
+          - 27017:27017
         env:
           MONGO_INITDB_ROOT_USERNAME: ${{ secrets.MONGODB_USERNAME }}
           MONGO_INITDB_ROOT_PASSWORD:  ${{ secrets.MONGODB_PASSWORD }}
