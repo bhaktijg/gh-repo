@@ -8,7 +8,9 @@ jobs:
             node-version: [12,14,18]
             operating-system: [ubuntu-latest, windows-latest]
             exclude: # exclude specific combinations of configurations to run jobs. 
-                - node-version: [12,14]
+                - node-version: 12
+                  operating-system: windows-latest
+                - node-version: 14
                   operating-system: windows-latest
         runs-on: ${{ matrix.operating-system}}
         steps:
