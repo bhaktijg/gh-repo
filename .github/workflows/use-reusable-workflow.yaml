@@ -33,3 +33,5 @@ jobs:
         uses: ./.github/workflows/reusable-deploy.yaml #call reusable workflow here. 
         with:
             artifact-name: react-app-artifacts # pass input parameters to reusable workflow. 
+        secrets: # pass secrets to reusable workflow
+            some-secret: Secret-one-value
