@@ -8,5 +8,5 @@ jobs:
               run: echo "In step 1"
 
             - name: step-2
-              if: failure()
+              if: success()
               run: echo "In step 2"
