@@ -35,3 +35,10 @@ jobs:
             artifact-name: react-app-artifacts # pass input parameters to reusable workflow. 
         secrets: # pass secrets to reusable workflow
             some-secret: Secret-one-value
+
+    print-job:
+        needs: deploy-job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Print reusable workflow output
+              run: echo "${{ needs.deploy-job.outputs.reusable-workflow-outcome }}"

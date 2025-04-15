@@ -9,9 +9,16 @@ on:
             default: artifacts
         secrets: # define workflow secrets
           some-secret:
-            required: false  
+            required: false
+        outputs: # define workflow outputs
+           reusable-workflow-outcome: 
+            description: Output of the reusable worflow.
+            value: ${{ jobs.reusable-deploy-job.outputs.result }}
+
 jobs:
     reusable-deploy-job:
+        outputs:
+          result: ${{ steps.output-step.outputs.step-result}}
         runs-on: ubuntu-latest
         steps:
             - name: Download build artifacts
@@ -22,3 +29,6 @@ jobs:
               run: |
                 echo "Deploy application..."
                 echo "Secret Info - ${{ secrets.some-secret}}"
+            - name: Return output
+              id : output-step
+              run: echo "::set-output name=step-result::success"
