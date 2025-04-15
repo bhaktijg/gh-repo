@@ -30,10 +30,4 @@ jobs:
 
     deploy-job:
         needs: artifact-job
-        runs-on: ubuntu-latest
-        steps:
-            - name: Checkout repository code
-              uses: actions/checkout@v4
-
-            - name: Deploy step
-              uses: ./.github/workflows/reusable-deploy.yaml@main #call reusable workflow here. 
+        uses: ./.github/workflows/reusable-deploy.yaml #call reusable workflow here. 
