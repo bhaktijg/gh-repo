@@ -12,7 +12,7 @@ jobs:
               run: echo "In step 2"
     second-job:
         needs: first-job
-        if: cancelled()
+        if: success()
         runs-on: ubuntu-latest
         steps:
             - name: step-3
