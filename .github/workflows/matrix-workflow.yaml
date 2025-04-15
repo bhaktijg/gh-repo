@@ -1,0 +1,26 @@
+name: Matrix workflow
+on: workflow_dispatch
+jobs: 
+    build-job:
+        strategy:
+          matrix: # define matrix 
+            node_version: [12,14,18]
+            operating-system: [ubuntu-latest, windows-latest]
+        runs-on: ${{ matrix.operating-system}}
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+
+            - name: Install NodeJs
+              uses: actions/setup-node@v4
+              with:
+                node-version: ${{ matrix.node_version}}
+
+            - name: Install dependencies
+              run:  |
+                cd second-action-react-app
+                ls -la
+                npm install
+                npm run build
+
+            
