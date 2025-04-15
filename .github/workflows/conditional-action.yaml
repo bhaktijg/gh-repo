@@ -8,5 +8,12 @@ jobs:
               run: echo "In step 1"
 
             - name: step-2
-              if: success()
+              if: success() 
               run: echo "In step 2"
+    second-job:
+        needs: first-job
+        if: cancelled()
+        runs-on: ubuntu-latest
+        steps:
+            - name: step-3
+              run: echo "In step 3"
