@@ -5,8 +5,11 @@ jobs:
         continue-on-error: true
         strategy:
           matrix: # define matrix 
-            node_version: [12,14,18]
+            node-version: [12,14,18]
             operating-system: [ubuntu-latest, windows-latest]
+            exclude: # exclude specific combinations of configurations to run jobs. 
+                - node-version: [12,14]
+                  operating-system: windows-latest
         runs-on: ${{ matrix.operating-system}}
         steps:
             - name: Checkout code
@@ -15,7 +18,7 @@ jobs:
             - name: Install NodeJs
               uses: actions/setup-node@v4
               with:
-                node-version: ${{ matrix.node_version}}
+                node-version: ${{ matrix.node-version}}
 
             - name: Install dependencies
               run:  |
