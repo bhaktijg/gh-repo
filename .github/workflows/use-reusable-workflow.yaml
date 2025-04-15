@@ -29,6 +29,7 @@ jobs:
                 path: ${{github.workspace}}/second-action-react-app/dist
 
     deploy-job:
+        needs: artifact-job
         runs-on: ubuntu-latest
         steps:
             - name: Deploy step
