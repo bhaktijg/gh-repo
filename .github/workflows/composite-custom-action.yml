@@ -9,6 +9,8 @@ jobs:
 
             - name: Get and cache dependencies 
               uses: ./.github/custom-actions/cache-dependencies
+              with:
+                is-caching: 'false'
             
     build-job:
         needs: cache-job

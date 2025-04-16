@@ -1,9 +1,16 @@
 name: 'Download and Cache Dependencies'
 description: 'Download and cache dependencies'
+inputs: # inputs to custom action
+  is-caching:
+    description: 'Whether to cache dependecies or not.'
+    required: false
+    default: 'true'
 runs:
   using: 'composite'
   steps:
     - name: Cache dependencies # This action stores application dependencies into central location and cached it. 
+      if: inputs.caching == 'true'
+      id: cache
       uses: actions/cache@v4
       with:
         path: ~/.npm
