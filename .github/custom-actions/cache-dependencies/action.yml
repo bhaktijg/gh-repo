@@ -1,0 +1,16 @@
+name: 'Download and Cache Dependencies'
+description: 'Download and cache dependencies'
+runs:
+  using: 'composite'
+  steps:
+    - name: Cache dependencies # This action stores application dependencies into central location and cached it. 
+      uses: actions/cache@v4
+      with:
+        path: ~/.npm
+        key: node-modules-deps-${{ hashFiles('**/package-lock.json')}}
+
+    - name: Install dependencies and Build application
+      run: |
+        cd second-action-react-app
+        npm install
+      shell: bash
