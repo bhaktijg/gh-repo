@@ -48,6 +48,8 @@ jobs:
     information-job:
         runs-on: ubuntu-latest
         steps:
+            - name : Download code
+              uses: actions/checkout@v4
             - name: Call Javascript action
               uses: ./.github/custom-actions/deployment-s3-javascript
             
