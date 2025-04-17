@@ -10,6 +10,9 @@ inputs:
   website-folder:
     description: Website folder name
     required: true
+outputs:
+  website-url:
+    description: Website url of the application
 runs:
   using: 'node20'
   main: 'main.js'
