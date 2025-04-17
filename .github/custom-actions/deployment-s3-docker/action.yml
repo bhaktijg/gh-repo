@@ -1,0 +1,18 @@
+name: Deploy to AWS S3 via docker
+description: Deployment of website to s3 using docker custom action
+inputs:
+  s3-bucket-name:
+    description: Name of the s3 bucket
+    required: true
+  s3-bucket-region:
+    description: Name of the s3 bucket region
+    required: true
+  website-folder:
+    description: Website folder name
+    required: true
+outputs:
+  website-url:
+    description: Website url of the application
+runs:
+  using: 'docker'
+  image: 'Dockerfile'

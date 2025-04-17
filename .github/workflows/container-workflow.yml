@@ -40,7 +40,7 @@ jobs:
       - name: Run server
         run: |
           cd container-app
-          npm start & npx wait-on http://127.0.0.1:$PORT
+          npm start & npx wait-on http://127.0.0.1:$PORT                                          
       - name: Run tests
         run: |
           cd container-app

@@ -1,0 +1,63 @@
+name: Javascript custom actions workflow
+on: workflow_dispatch
+jobs:
+    cache-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name : Download code
+              uses: actions/checkout@v4
+
+            - name: Get and cache dependencies 
+              uses: ./.github/custom-actions/cache-dependencies
+              with:
+                is-caching: 'false'
+            
+    build-job:
+        needs: cache-job
+        runs-on: ubuntu-latest
+        steps:
+            - name : Download code
+              uses: actions/checkout@v4
+                          
+            - name: Get and cache dependencies 
+              uses: ./.github/custom-actions/cache-dependencies
+            
+            - name: build application
+              run: |
+                cd second-action-react-app
+                npm run build
+            
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: react-app-artifacts
+                path: ${{github.workspace}}/second-action-react-app/dist
+            
+    deploy-job:
+        needs: build-job
+        runs-on: ubuntu-latest
+        steps:
+            - name : Download code
+              uses: actions/checkout@v4
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
+              with: 
+                name: react-app-artifacts
+                path: ./dist
+            
+            - name: Deploy application via docker action
+              uses: ./.github/custom-actions/deployment-s3-docker
+              id: deploy
+              env:
+                AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+                AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              with:
+                s3-bucket-name: github-bhakti-custom-actions
+                s3-bucket-region: us-east-1
+                website-folder: ./dist
+            - name: Output Information
+              run: |
+                echo "Website Live URL: ${{ steps.deploy.outputs.website-url }}"
+
+
+            
