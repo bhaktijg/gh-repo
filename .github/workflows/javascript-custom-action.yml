@@ -1,0 +1,53 @@
+name: Javascript custom actions workflow
+on: workflow_dispatch
+jobs:
+    cache-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name : Download code
+              uses: actions/checkout@v4
+
+            - name: Get and cache dependencies 
+              uses: ./.github/custom-actions/cache-dependencies
+              with:
+                is-caching: 'false'
+            
+    build-job:
+        needs: cache-job
+        runs-on: ubuntu-latest
+        steps:
+            - name : Download code
+              uses: actions/checkout@v4
+                          
+            - name: Get and cache dependencies 
+              uses: ./.github/custom-actions/cache-dependencies
+            
+            - name: build application
+              run: |
+                cd second-action-react-app
+                npm run build
+            
+            - name: Upload artifacts
+              uses: actions/upload-artifact@v4
+              with:
+                name: react-app-artifacts
+                path: ${{github.workspace}}/second-action-react-app/dist
+            
+    deploy-job:
+        needs: build-job
+        runs-on: ubuntu-latest
+        steps:
+            - name: Download build artifacts
+              uses: actions/download-artifact@v4
+              with: 
+                name: react-app-artifacts
+            
+            - name: Deploy application
+              run: echo "Deploying application....."
+
+    information-job:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Call Javascript action
+              uses: ./.github/custom-actions/deployment-s3-javascript
+            
