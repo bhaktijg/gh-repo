@@ -1,4 +1,4 @@
-name: Javascript custom actions workflow
+name: Docker custom actions workflow
 on: workflow_dispatch
 jobs:
     cache-job:
